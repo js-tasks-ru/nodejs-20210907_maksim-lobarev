@@ -14,6 +14,7 @@ server.on('request', (req, res) => {
   if (pathname.includes('/')) {
     res.statusCode = 400;
     res.end('No such file');
+    return;
   }
 
   const filepath = path.join(__dirname, 'files', pathname);
@@ -50,6 +51,7 @@ server.on('request', (req, res) => {
         else {
           res.statusCode = 500;
           res.end('Server error');
+          fs.unlink(filepath, () => {});
         }
       });
 
