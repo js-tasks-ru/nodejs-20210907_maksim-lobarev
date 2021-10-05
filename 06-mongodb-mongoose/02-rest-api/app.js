@@ -2,6 +2,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const {productsBySubcategory, productList, productById} = require('./controllers/products');
 const {categoryList} = require('./controllers/categories');
+const handleErrors = require('./libs/handleErrors');
 
 const app = new Koa();
 
@@ -22,9 +23,9 @@ app.use(async (ctx, next) => {
 
 const router = new Router({prefix: '/api'});
 
-router.get('/categories', categoryList);
-router.get('/products', productsBySubcategory, productList);
-router.get('/products/:id', productById);
+router.get('/categories', handleErrors, categoryList);
+router.get('/products', handleErrors, productsBySubcategory, productList);
+router.get('/products/:id', handleErrors, productById);
 
 app.use(router.routes());
 
